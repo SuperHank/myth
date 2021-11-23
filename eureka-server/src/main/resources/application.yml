@@ -1,0 +1,41 @@
+eureka:
+  instance:
+    hostname: localhost
+spring:
+  application:
+    name: eureka-server
+---
+server:
+  port: 8001
+spring:
+  profiles: dev
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8002/eureka/,http://localhost:8003/eureka/
+
+---
+server:
+  port: 8002
+spring:
+  profiles: test
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8001/eureka/,http://localhost:8003/eureka/
+
+---
+server:
+  port: 8003
+spring:
+  profiles: prod
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8001/eureka/,http://localhost:8002/eureka/
