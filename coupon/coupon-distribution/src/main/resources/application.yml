@@ -1,0 +1,95 @@
+spring:
+  application:
+    name: coupon-distribution
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: Root1234
+    url: jdbc:mysql://139.196.201.176:3307/ares_coupon?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    # 连接池
+    hikari:
+      maximum-pool-size: 8
+      minimum-idle: 4
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 45000
+      auto-commit: true
+      pool-name: CouponHikariCP
+  # kafka 配置
+  kafka:
+    bootstrap-servers:
+      - 139.196.201.176:9092
+    consumer:
+      group-id: coupon-x
+      auto-offset-reset: latest
+  # redis配置
+  redis:
+    port: 16377
+    database: 0
+    host: 139.196.201.176
+    password:
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+    timeout: 5000ms
+  # 开启ribbon的重试机制，即获取服务失败是否从另外一个节点重试
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8001/eureka/,http://localhost:8002/eureka/,http://localhost:8003/eureka/
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/**/*Mapper.xml
+  global-config:
+    # 逻辑删除配置
+    db-config:
+      # 删除前
+      logic-not-delete-value: 1
+      # 删除后
+      logic-delete-value: -1
+server:
+  servlet:
+    context-path: /coupon-distribution
+### feign相关的配置
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 2000
+        readTimeout: 5000
+      coupon-template: # 单独服务的配置
+        connectTimeout: 3000
+        readTimeout: 5000
+---
+spring:
+  profiles: dev
+server:
+  port: 8056
+
+---
+spring:
+  profiles: test
+server:
+  port: 8057
+
+---
+spring:
+  profiles: prod
+server:
+  port: 8058

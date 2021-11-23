@@ -9,9 +9,13 @@ zuul:
   prefix: /coupon
   routes:
     # 优惠券模板微服务路由配置定义
-    template:
+    coupon-service:
       path: /coupon-service/**
       serviceId: coupon-service
+      strip-prefix: false
+    coupon-distribution:
+      path: /coupon-distribution/**
+      serviceId: coupon-distribution
       strip-prefix: false
   host:
     connect-timeout-millis: 15000
