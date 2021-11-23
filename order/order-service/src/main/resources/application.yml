@@ -1,23 +1,11 @@
 spring:
   application:
-    name: coupon-service
+    name: order-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: Root1234
-    url: jdbc:mysql://139.196.201.176:3307/ares_coupon?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
-  redis:
-    port: 16377
-    database: 0
-    host: 139.196.201.176
-    password:
-    jedis:
-      pool:
-        max-active: 8
-        max-wait: -1ms
-        max-idle: 8
-        min-idle: 0
-    timeout: 5000ms
+    url: jdbc:mysql://139.196.201.176:3307/ares_order?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
 eureka:
   instance:
     hostname: localhost
@@ -41,7 +29,7 @@ mybatis-plus:
       logic-delete-value: -1
 server:
   servlet:
-    context-path: /coupon-service
+    context-path: /order-service
 ---
 spring:
   profiles: dev
